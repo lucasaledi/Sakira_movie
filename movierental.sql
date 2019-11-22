@@ -1,4 +1,4 @@
-/*S1.Q1*/
+/*Create a query that lists each movie, the film category it is classified in, and the number of times it has been rented out.*/
 WITH t1 AS
 		(SELECT f.title title, c.name category, r.rental_date rented
 		  FROM  film f
@@ -18,7 +18,7 @@ GROUP BY 1, 2
 ORDER BY 3 DESC
 LIMIT 10;
 
-/*S1.Q2*/
+/*Can you provide a table with the movie titles and divide them into 4 levels (first_quarter, second_quarter, third_quarter, and final_quarter) based on the quartiles (25%, 50%, 75%) of the rental duration for movies across all categories?*/
 WITH t1 AS
 		(SELECT f.title title, c.name category,
 		 		    DATE_TRUNC('day', r.return_date) - DATE_TRUNC('day', r.rental_date) rental_time
@@ -44,7 +44,7 @@ WITH t1 AS
 GROUP BY 1, 2
 ORDER BY 2 DESC;
 
-/*S1.Q3*/
+/*provide a table with the family-friendly film category, each of the quartiles, and the corresponding count of movies within each combination of film category for each corresponding rental duration category*/
 WITH t1 AS
 		(SELECT c.name category, f.rental_duration rent_durat,
 		 		 NTILE(4) OVER (ORDER BY f.rental_duration) standard_tiles
@@ -62,7 +62,7 @@ WHERE  category IN ('Animation','Children','Classics','Comedy','Family','Music')
 GROUP BY 1, 2
 ORDER BY 1, 2;
 
-/*S2.Q1*/
+/*Write a query that returns the store ID for the store, the year and month and the number of rental orders each store has fulfilled for that month. Your table should include a column for each of the following: year, month, store ID and count of rental orders fulfilled during that month*/
 WITH t1 AS (SELECT DATE_PART('month', rental_date) AS rental_month,
 		DATE_PART('year', rental_date) AS rental_year,
 		s.store_id store_id,
